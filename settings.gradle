@@ -1,0 +1,5 @@
+rootProject.name = 'ddd-imdb-card-game'
+include 'domain'
+include 'application'
+include 'infrastructure'
+
