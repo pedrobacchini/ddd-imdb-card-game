@@ -11,14 +11,12 @@ public class MatchID extends Identifier {
     private final UUID matchId;
 
     private MatchID(final UUID playerId, final UUID matchId) {
-        Objects.requireNonNull(playerId);
-        Objects.requireNonNull(matchId);
         this.playerId = playerId;
         this.matchId = matchId;
     }
 
-    public static MatchID unique() {
-        return new MatchID(UUID.randomUUID(), UUID.randomUUID());
+    public static MatchID with(final UUID playerId, final UUID matchId) {
+        return new MatchID(playerId, matchId);
     }
 
     public UUID getPlayerId() {
