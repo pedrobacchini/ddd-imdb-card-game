@@ -10,13 +10,13 @@ public class MatchID extends Identifier {
     private final UUID playerId;
     private final UUID matchId;
 
-    private MatchID(final UUID playerId, final UUID matchId) {
-        this.playerId = playerId;
-        this.matchId = matchId;
+    private MatchID(final UUID aPlayerId, final UUID aMatchId) {
+        this.playerId = aPlayerId;
+        this.matchId = aMatchId;
     }
 
-    public static MatchID with(final UUID playerId, final UUID matchId) {
-        return new MatchID(playerId, matchId);
+    public static MatchID with(final UUID aPlayerId, final UUID aMatchId) {
+        return new MatchID(aPlayerId, aMatchId);
     }
 
     public UUID getPlayerId() {
