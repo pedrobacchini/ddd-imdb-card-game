@@ -1,6 +1,5 @@
 package com.github.pedrobacchini.application.match.create;
 
-import com.github.pedrobacchini.domain.exception.DomainException;
 import com.github.pedrobacchini.domain.match.Match;
 import com.github.pedrobacchini.domain.match.MatchGateway;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -45,7 +43,7 @@ class CreateMatchUseCaseTest {
 
         when(matchGateway.create(any())).thenAnswer(returnsFirstArg());
 
-        final var actualOuput = defaultCreateMatchUseCase.execute(aCommand);
+        final var actualOuput = defaultCreateMatchUseCase.execute(aCommand).get();
 
         assertNotNull(actualOuput);
         assertNotNull(actualOuput.id());
@@ -65,15 +63,15 @@ class CreateMatchUseCaseTest {
     void givenAInvalidPlayerId_whenCallsCreateMatch_shouldReturnDomainException() {
         final UUID expectedPlayerId = null;
         final var expectedMatchId = UUID.randomUUID();
-        final var expectedErrorMessage = "'playerId' should not be null";
         final var expectedErrorCount = 1;
+        final var expectedErrorMessage = "'playerId' should not be null";
 
         final var aCommand = CreateMatchCommand.with(expectedPlayerId, expectedMatchId);
 
-        final var actualException = assertThrows(DomainException.class, () -> defaultCreateMatchUseCase.execute(aCommand));
+        final var notification = defaultCreateMatchUseCase.execute(aCommand).getLeft();
 
-        assertEquals(expectedErrorCount, actualException.getErrors().size());
-        assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
+        assertEquals(expectedErrorCount, notification.getErrors().size());
+        notification.firstError().ifPresent(error -> assertEquals(expectedErrorMessage, error.message()));
 
         verify(matchGateway, never()).create(any());
     }
@@ -86,15 +84,17 @@ class CreateMatchUseCaseTest {
         final var expectedPoints = 0;
         final var expectedFails = 0;
         final var expectedStatus = Match.MatchStatus.PLAYING_GAME;
+        final var expectedErrorCount = 1;
         final var expectedErrorMessage = "Gateway error";
 
         final var aCommand = CreateMatchCommand.with(expectedPlayerId, expectedMatchId);
 
         when(matchGateway.create(any())).thenThrow(new IllegalStateException(expectedErrorMessage));
 
-        final var actualException = assertThrows(IllegalStateException.class, () -> defaultCreateMatchUseCase.execute(aCommand));
+        final var notification = defaultCreateMatchUseCase.execute(aCommand).getLeft();
 
-        assertEquals(expectedErrorMessage, actualException.getMessage());
+        assertEquals(expectedErrorCount, notification.getErrors().size());
+        notification.firstError().ifPresent(error -> assertEquals(expectedErrorMessage, error.message()));
 
         verify(matchGateway, times(1))
             .create(argThat(aMatch ->

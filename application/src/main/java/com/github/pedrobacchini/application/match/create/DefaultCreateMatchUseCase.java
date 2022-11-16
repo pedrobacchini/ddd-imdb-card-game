@@ -5,8 +5,12 @@ import com.github.pedrobacchini.domain.match.Match;
 import com.github.pedrobacchini.domain.match.MatchGateway;
 import com.github.pedrobacchini.domain.match.MatchID;
 import com.github.pedrobacchini.domain.validation.handler.Notification;
+import io.vavr.control.Either;
 
 import java.util.Objects;
+
+import static io.vavr.API.Left;
+import static io.vavr.API.Try;
 
 public class DefaultCreateMatchUseCase extends CreateMatchUseCase {
 
@@ -17,7 +21,7 @@ public class DefaultCreateMatchUseCase extends CreateMatchUseCase {
     }
 
     @Override
-    public CreateMatchOutput execute(final CreateMatchCommand aCommand) {
+    public Either<Notification, CreateMatchOutput> execute(final CreateMatchCommand aCommand) {
         final var aPlayerId = aCommand.playerId();
         final var aMatchId = aCommand.matchId();
 
@@ -25,11 +29,13 @@ public class DefaultCreateMatchUseCase extends CreateMatchUseCase {
         final var aMatch = Match.start(MatchID.with(aPlayerId, aMatchId), new AlphabetMatchOptionsGenerationStrategy());
         aMatch.validate(notification);
 
-        if (notification.hasError()) {
-            //
-        }
+        return notification.hasError() ? Left(notification) : create(aMatch);
+    }
 
-        return CreateMatchOutput.from(matchGateway.create(aMatch));
+    private Either<Notification, CreateMatchOutput> create(final Match aMatch) {
+        return Try(() -> this.matchGateway.create(aMatch))
+            .toEither()
+            .bimap(Notification::create, CreateMatchOutput::from);
     }
 
 }
