@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MainTest {
 
-    @Test
-    void testeMain() {
-        assertNotNull(new Main());
-        Main.main(new String[]{});
-    }
+//    @Test
+//    void testeMain() {
+//        assertNotNull(new Main());
+//        Main.main(new String[]{});
+//    }
 
 }
