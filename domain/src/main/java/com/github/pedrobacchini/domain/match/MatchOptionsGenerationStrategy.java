@@ -1,5 +1,6 @@
 package com.github.pedrobacchini.domain.match;
 
+import com.github.pedrobacchini.domain.ValueObject;
 import com.github.pedrobacchini.domain.movie.Movie;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang.math.RandomUtils;
@@ -10,7 +11,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
-public class MatchOptionsGenerationStrategy {
+public class MatchOptionsGenerationStrategy extends ValueObject {
 
     private static final int NUMBER_OF_CHOICES = 2;
     private final Set<MatchOptions> matchOptionsAlreadyGenerate = new HashSet<>();
