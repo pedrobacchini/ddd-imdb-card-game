@@ -1,5 +1,7 @@
 package com.github.pedrobacchini.domain.match;
 
+import com.github.pedrobacchini.domain.movie.Movie;
+
 import java.util.Set;
 import java.util.stream.Collectors;
 

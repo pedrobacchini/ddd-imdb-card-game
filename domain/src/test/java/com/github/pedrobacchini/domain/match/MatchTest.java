@@ -1,12 +1,14 @@
 package com.github.pedrobacchini.domain.match;
 
 import com.github.pedrobacchini.domain.exception.DomainException;
+import com.github.pedrobacchini.domain.movie.Movie;
 import com.github.pedrobacchini.domain.validation.handler.ThrowsValidationHandler;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -113,8 +115,12 @@ class MatchTest {
         final var expectedStatus = Match.MatchStatus.PLAYING_GAME;
 
         final var actualMatch = Match.start(MatchID.with(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
+
+        assertDoesNotThrow(() -> actualMatch.validate(new ThrowsValidationHandler()));
         final var previousMatchOptions = actualMatch.getCurrentMatchOptions();
+
         actualMatch.nextPhase(previousMatchOptions.rightOption().value());
+        assertDoesNotThrow(() -> actualMatch.validate(new ThrowsValidationHandler()));
 
         assertEquals(expectedPlayerId, actualMatch.getId().getPlayerId());
         assertEquals(expectedMatchId, actualMatch.getId().getMatchId());
@@ -134,8 +140,12 @@ class MatchTest {
         final var expectedStatus = Match.MatchStatus.PLAYING_GAME;
 
         final var actualMatch = Match.start(MatchID.with(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
+
+        assertDoesNotThrow(() -> actualMatch.validate(new ThrowsValidationHandler()));
         final var previousMatchOptions = actualMatch.getCurrentMatchOptions();
+
         actualMatch.nextPhase(previousMatchOptions.wrongOption().value());
+        assertDoesNotThrow(() -> actualMatch.validate(new ThrowsValidationHandler()));
 
         assertEquals(expectedPlayerId, actualMatch.getId().getPlayerId());
         assertEquals(expectedMatchId, actualMatch.getId().getMatchId());
@@ -155,10 +165,13 @@ class MatchTest {
         final var expectedStatus = Match.MatchStatus.GAME_OVER;
 
         final var actualMatch = Match.start(MatchID.with(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
+        assertDoesNotThrow(() -> actualMatch.validate(new ThrowsValidationHandler()));
+
         while (actualMatch.getStatus() == Match.MatchStatus.PLAYING_GAME) {
             final var wrongOption = actualMatch.getCurrentMatchOptions().wrongOption();
             actualMatch.nextPhase(wrongOption.value());
         }
+        assertDoesNotThrow(() -> actualMatch.validate(new ThrowsValidationHandler()));
 
         assertEquals(expectedPlayerId, actualMatch.getId().getPlayerId());
         assertEquals(expectedMatchId, actualMatch.getId().getMatchId());
@@ -177,10 +190,13 @@ class MatchTest {
         final var expectedStatus = Match.MatchStatus.GAME_OVER;
 
         final var actualMatch = Match.start(MatchID.with(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
+        assertDoesNotThrow(() -> actualMatch.validate(new ThrowsValidationHandler()));
+
         while (actualMatch.getStatus() == Match.MatchStatus.PLAYING_GAME) {
             final var rightOption = actualMatch.getCurrentMatchOptions().rightOption();
             actualMatch.nextPhase(rightOption.value());
         }
+        assertDoesNotThrow(() -> actualMatch.validate(new ThrowsValidationHandler()));
 
         assertEquals(expectedPlayerId, actualMatch.getId().getPlayerId());
         assertEquals(expectedMatchId, actualMatch.getId().getMatchId());

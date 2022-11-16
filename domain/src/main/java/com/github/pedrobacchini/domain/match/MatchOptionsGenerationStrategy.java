@@ -1,5 +1,6 @@
 package com.github.pedrobacchini.domain.match;
 
+import com.github.pedrobacchini.domain.movie.Movie;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang.math.RandomUtils;
 
