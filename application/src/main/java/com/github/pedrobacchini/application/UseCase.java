@@ -1,10 +1,6 @@
 package com.github.pedrobacchini.application;
 
-import com.github.pedrobacchini.domain.match.Match;
+public abstract class UseCase<IN, OUT> {
 
-public class UseCase {
-
-//    public Match execute() {
-//        return new Match();
-//    }
+    public abstract OUT execute(IN anIN);
 }
