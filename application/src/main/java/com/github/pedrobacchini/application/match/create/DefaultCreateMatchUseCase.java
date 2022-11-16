@@ -4,7 +4,7 @@ import com.github.pedrobacchini.domain.match.AlphabetMatchOptionsGenerationStrat
 import com.github.pedrobacchini.domain.match.Match;
 import com.github.pedrobacchini.domain.match.MatchGateway;
 import com.github.pedrobacchini.domain.match.MatchID;
-import com.github.pedrobacchini.domain.validation.handler.ThrowsValidationHandler;
+import com.github.pedrobacchini.domain.validation.handler.Notification;
 
 import java.util.Objects;
 
@@ -21,11 +21,15 @@ public class DefaultCreateMatchUseCase extends CreateMatchUseCase {
         final var aPlayerId = aCommand.playerId();
         final var aMatchId = aCommand.matchId();
 
+        final var notification = Notification.create();
         final var aMatch = Match.start(MatchID.with(aPlayerId, aMatchId), new AlphabetMatchOptionsGenerationStrategy());
-        aMatch.validate(new ThrowsValidationHandler());
+        aMatch.validate(notification);
 
-        this.matchGateway.create(aMatch);
-        return CreateMatchOutput.from(aMatch);
+        if (notification.hasError()) {
+            //
+        }
+
+        return CreateMatchOutput.from(matchGateway.create(aMatch));
     }
 
 }
