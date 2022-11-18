@@ -5,7 +5,6 @@ import com.github.pedrobacchini.domain.match.Match;
 import com.github.pedrobacchini.domain.match.MatchGateway;
 import com.github.pedrobacchini.domain.match.MatchID;
 import com.github.pedrobacchini.domain.validation.handler.Notification;
-import io.vavr.API;
 import io.vavr.control.Either;
 
 import java.util.Objects;
@@ -26,7 +25,7 @@ public class DefaultNextMatchPhaseUseCase extends NextMatchPhaseUseCase {
 
     @Override
     public Either<Notification, NextMatchPhaseOutput> execute(final NextMatchPhaseCommand aCommand) {
-        final var anId = MatchID.with(aCommand.playerId(), aCommand.matchId());
+        final var anId = MatchID.from(aCommand.playerId(), aCommand.matchId());
         final var aPlayerMove = aCommand.playerMove();
 
         final var aMatch = this.matchGateway.findById(anId)
