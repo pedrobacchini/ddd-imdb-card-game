@@ -6,5 +6,7 @@ public interface MatchGateway {
 
     Match create(Match match);
 
+    Match update(Match match);
+
     Optional<Match> findById(MatchID matchID);
 }
