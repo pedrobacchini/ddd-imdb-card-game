@@ -5,10 +5,12 @@ import com.github.pedrobacchini.domain.match.AlphabetMatchOptionsGenerationStrat
 import com.github.pedrobacchini.domain.match.Match;
 import com.github.pedrobacchini.domain.match.MatchGateway;
 import com.github.pedrobacchini.domain.match.MatchID;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Objects;
@@ -34,6 +36,11 @@ class NextMatchPhaseUseCaseTest {
 
     @Mock
     private MatchGateway matchGateway;
+
+    @BeforeEach
+    void cleanUp() {
+        Mockito.reset(matchGateway);
+    }
 
     @Test
     void givenAValidCommand_whenCallsNextMatchPhase_shouldReturnMatchId() {
