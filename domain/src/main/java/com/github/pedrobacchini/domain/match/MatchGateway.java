@@ -1,5 +1,7 @@
 package com.github.pedrobacchini.domain.match;
 
+import com.github.pedrobacchini.domain.pagination.Pagination;
+
 import java.util.Optional;
 
 public interface MatchGateway {
@@ -9,4 +11,7 @@ public interface MatchGateway {
     Match update(Match match);
 
     Optional<Match> findById(MatchID matchID);
+
+    Pagination<Match> findAll(MatchSearchQuery aQuery);
+
 }
