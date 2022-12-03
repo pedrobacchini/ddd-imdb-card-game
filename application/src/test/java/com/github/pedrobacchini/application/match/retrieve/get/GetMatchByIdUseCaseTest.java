@@ -1,4 +1,4 @@
-package com.github.pedrobacchini.application.match.retrieve;
+package com.github.pedrobacchini.application.match.retrieve.get;
 
 import com.github.pedrobacchini.domain.exception.DomainException;
 import com.github.pedrobacchini.domain.match.Match;
