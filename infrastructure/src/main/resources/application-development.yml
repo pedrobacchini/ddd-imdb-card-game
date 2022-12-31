@@ -1,3 +1,9 @@
+mysql:
+    username: root
+    password: 123456
+    schema: imdb_card_game
+    url: localhost:3306
+
 server:
     port: 8080
     undertow:

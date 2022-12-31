@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     mysql:
-        container_name: adm_videos_mysql
+        container_name: adm_imdb_card_game_mysql
         image: mysql:latest
         environment:
             - MYSQL_ROOT_PASSWORD=123456
