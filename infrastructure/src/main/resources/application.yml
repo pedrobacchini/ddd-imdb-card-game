@@ -14,3 +14,19 @@ spring:
         url: jdbc:mysql://${mysql.url}/${mysql.schema}?useSSL=true&serverTimezone=UTC&characterEncoding=UTF-8
         username: ${mysql.username}
         password: ${mysql.password}
+        hikari:
+            auto-commit: false
+            connection-timeout: 250 #Tempo em que a thread vai esperar para que o hikari de uma conexão
+            max-lifetime: 600000 #Tempo maximo que uma conexão pode ficar aberta (10) min - security
+            maximum-pool-size: 20 #numero maximo de conexão que vai ter no pull 120mil rpm
+            minimum-idle: 10
+            pool-name: master
+    jpa:
+        open-in-view: false
+        show-sql: true
+        hibernate:
+            ddl-auto: none
+        properties:
+            "[hibernate.dialect]": org.hibernate.dialect.MySQLDialect
+            "[hibernate.generate_statistics]": false
+            "[hibernate.connection.provider_disables_autocommit]": true
