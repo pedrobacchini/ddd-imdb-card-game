@@ -26,7 +26,7 @@ class MatchTest {
         final var expectedFails = 0;
         final var expectedStatus = Match.MatchStatus.PLAYING_GAME;
 
-        final var actualMatch = Match.start(MatchID.from(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
+        final var actualMatch = Match.start(MatchID.newId(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
         actualMatch.validate(new ThrowsValidationHandler());
 
         assertNotNull(actualMatch);
@@ -67,7 +67,7 @@ class MatchTest {
         final var expectedMatchId = UUID.randomUUID();
         final var expectedMatchOptionsGenerationStrategy = new AlphabetMatchOptionsGenerationStrategy();
 
-        final var actualMatch = Match.start(MatchID.from(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
+        final var actualMatch = Match.start(MatchID.newId(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
         final var actualException = assertThrows(DomainException.class, () -> actualMatch.validate(new ThrowsValidationHandler()));
 
         assertEquals(expectedErrorCount, actualException.getErrors().size());
@@ -82,7 +82,7 @@ class MatchTest {
         final var expectedErrorMessage = "'matchId' should not be null";
         final var expectedMatchOptionsGenerationStrategy = new AlphabetMatchOptionsGenerationStrategy();
 
-        final var actualMatch = Match.start(MatchID.from(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
+        final var actualMatch = Match.start(MatchID.newId(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
         final var actualException = assertThrows(DomainException.class, () -> actualMatch.validate(new ThrowsValidationHandler()));
 
         assertEquals(expectedErrorCount, actualException.getErrors().size());
@@ -97,7 +97,7 @@ class MatchTest {
         final var expectedErrorCount = 1;
         final var expectedErrorMessage = "'strategy' should not be null";
 
-        final var actualMatch = Match.start(MatchID.from(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
+        final var actualMatch = Match.start(MatchID.newId(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
         final var actualException = assertThrows(DomainException.class, () -> actualMatch.validate(new ThrowsValidationHandler()));
 
         assertEquals(expectedErrorCount, actualException.getErrors().size());
@@ -114,7 +114,7 @@ class MatchTest {
         final var expectedFails = 0;
         final var expectedStatus = Match.MatchStatus.PLAYING_GAME;
 
-        final var actualMatch = Match.start(MatchID.from(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
+        final var actualMatch = Match.start(MatchID.newId(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
 
         assertDoesNotThrow(() -> actualMatch.validate(new ThrowsValidationHandler()));
         final var previousMatchOptions = actualMatch.getCurrentMatchOptions();
@@ -139,7 +139,7 @@ class MatchTest {
         final var expectedFails = 1;
         final var expectedStatus = Match.MatchStatus.PLAYING_GAME;
 
-        final var actualMatch = Match.start(MatchID.from(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
+        final var actualMatch = Match.start(MatchID.newId(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
 
         assertDoesNotThrow(() -> actualMatch.validate(new ThrowsValidationHandler()));
         final var previousMatchOptions = actualMatch.getCurrentMatchOptions();
@@ -164,7 +164,7 @@ class MatchTest {
         final var expectedFails = 3;
         final var expectedStatus = Match.MatchStatus.GAME_OVER;
 
-        final var actualMatch = Match.start(MatchID.from(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
+        final var actualMatch = Match.start(MatchID.newId(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
         assertDoesNotThrow(() -> actualMatch.validate(new ThrowsValidationHandler()));
 
         while (actualMatch.getStatus() == Match.MatchStatus.PLAYING_GAME) {
@@ -189,7 +189,7 @@ class MatchTest {
         final var expectedFails = 0;
         final var expectedStatus = Match.MatchStatus.GAME_OVER;
 
-        final var actualMatch = Match.start(MatchID.from(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
+        final var actualMatch = Match.start(MatchID.newId(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
         assertDoesNotThrow(() -> actualMatch.validate(new ThrowsValidationHandler()));
 
         while (actualMatch.getStatus() == Match.MatchStatus.PLAYING_GAME) {

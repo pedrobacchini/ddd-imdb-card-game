@@ -51,7 +51,7 @@ class NextMatchPhaseUseCaseTest {
         final var expectedFails = 0;
         final var expectedStatus = Match.MatchStatus.PLAYING_GAME;
 
-        final var aMatch = Match.start(MatchID.from(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
+        final var aMatch = Match.start(MatchID.newId(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
         final var playerMove = aMatch.getCurrentMatchOptions().rightOption().value();
 
         final var aCommand = NextMatchPhaseCommand.with(
@@ -91,7 +91,7 @@ class NextMatchPhaseUseCaseTest {
         final var expectedErrorCount = 1;
         final var expectedErrorMessage = "Gateway error";
 
-        final var aMatch = Match.start(MatchID.from(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
+        final var aMatch = Match.start(MatchID.newId(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
         final var playerMove = aMatch.getCurrentMatchOptions().rightOption().value();
 
         final var aCommand = NextMatchPhaseCommand.with(
@@ -132,14 +132,14 @@ class NextMatchPhaseUseCaseTest {
             expectedMatchId,
             "A");
 
-        when(matchGateway.findById(MatchID.from(expectedPlayerId, expectedMatchId))).thenReturn(Optional.empty());
+        when(matchGateway.findById(MatchID.newId(expectedPlayerId, expectedMatchId))).thenReturn(Optional.empty());
 
         final var actualException = assertThrows(DomainException.class, () -> defaultNextMatchPhaseUseCase.execute(aCommand));
 
         assertEquals(expectedErrorCount, actualException.getErrors().size());
         assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
 
-        verify(matchGateway, times(1)).findById(MatchID.from(expectedPlayerId, expectedMatchId));
+        verify(matchGateway, times(1)).findById(MatchID.newId(expectedPlayerId, expectedMatchId));
         verify(matchGateway, never()).update(any());
     }
 

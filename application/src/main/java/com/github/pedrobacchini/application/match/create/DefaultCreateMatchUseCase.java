@@ -26,7 +26,7 @@ public class DefaultCreateMatchUseCase extends CreateMatchUseCase {
         final var aMatchId = aCommand.matchId();
 
         final var notification = Notification.create();
-        final var aMatch = Match.start(MatchID.from(aPlayerId, aMatchId), new AlphabetMatchOptionsGenerationStrategy());
+        final var aMatch = Match.start(MatchID.newId(aPlayerId, aMatchId), new AlphabetMatchOptionsGenerationStrategy());
         aMatch.validate(notification);
 
         return notification.hasError() ? Left(notification) : create(aMatch);

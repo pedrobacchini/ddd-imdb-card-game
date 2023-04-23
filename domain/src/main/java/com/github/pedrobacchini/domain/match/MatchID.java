@@ -15,7 +15,7 @@ public class MatchID extends Identifier {
         this.matchId = aMatchId;
     }
 
-    public static MatchID from(final UUID aPlayerId, final UUID aMatchId) {
+    public static MatchID newId(final UUID aPlayerId, final UUID aMatchId) {
         return new MatchID(aPlayerId, aMatchId);
     }
 

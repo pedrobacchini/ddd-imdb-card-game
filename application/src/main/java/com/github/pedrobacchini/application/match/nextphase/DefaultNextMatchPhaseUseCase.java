@@ -25,7 +25,7 @@ public class DefaultNextMatchPhaseUseCase extends NextMatchPhaseUseCase {
 
     @Override
     public Either<Notification, NextMatchPhaseOutput> execute(final NextMatchPhaseCommand aCommand) {
-        final var anId = MatchID.from(aCommand.playerId(), aCommand.matchId());
+        final var anId = MatchID.newId(aCommand.playerId(), aCommand.matchId());
         final var aPlayerMove = aCommand.playerMove();
 
         final var aMatch = this.matchGateway.findById(anId)
